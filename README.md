@@ -1,47 +1,74 @@
-# Insurwave ML Service code test
 
-## Introduction
+# Web Application with Docker Image
 
-Let's imagine you are part of the data science team in a company that specialises in data extraction. The team has been asked to create a solution that can extract dates from text inputs.
+## Overview
+This project consists of a web application built using FastAPI and Dockerized for easy deployment. The application extracts dates from text inputs using natural language processing (NLP) techniques.
 
-Example inputs:
-```
-Example 1: ‘The policy provides cover from 31st June 2019 to 1st July 2022 inclusive’
-Example 2: ‘Policy terms from 1/1/2021 to 31/12/2022’
-``` 
-Following experimentation with different features and models the data science team has concluded that the best results are obtained by: 
-
-1.	Removing special characters from input text
-2.	Removing the cardinality from dates (i.e remove ‘st’, ‘nd’, ‘rd’, ‘th’ from 1st, 2nd, 3rd, xth )
-3.	Predicting dates using spacy ‘English-en_core_web_sm model’. (In the future this will be replaced with a custom model)
-4.	Standardised the extracted dates using Python build in capabilities into dd/mm/yyyy format 
-5.	Issue warning if the input text contains numbers, but no date has been extracted
-6.	Generate a structure json output as shown below
+## File Structure
 
 ```
-# Example output
-
-{
-  "dates": ["31/06/2019","01/07/2022"],              
-  "message": "Success"             
-}
+project/
+.venv/
+src/
+    ├── __init__.py   
+    ├── api.py                 # Module containing FastAPI application definition
+    ├── date_formatter.py      # Module for formatting extracted dates
+    ├── extract_date_model.py  # Module for extracting dates using NLP
+    ├── main.py                # Main script to run the FastAPI server
+    ├── preprocess.py          # Module for text preprocessing
+tests/
+    ├── test_api.py            # Unit tests for the API module
+    ├── test_date_formatter.py # Unit tests for the date formatting module
+    ├── test_extract_date_model.py  # Unit tests for the date extraction module
+    ├── test_main.py           # Unit tests for the main script
+    └── test_preprocess.py     # Unit tests for the preprocessing module
+Dockerfile                     # Dockerfile for building the Docker image
+requirements.txt               # File listing Python dependencies
+README.md                      # This README file
 ```
 
-```
-{
-  "dates": [],              
-  "message": "Warning, dates not extracted correctly"             
-}
+## How to Execute
 
-```
+1. **Set Up Environment**: Make sure you have Python and Docker installed on your system.
 
-## Ticket-1  Package data science code to be consumed by API development team 
+2. **Clone the Repository**: Clone this repository to your local machine.
 
-The objective is to productionliase the data science code. The output you produce in this exercise, should be able to be consumed by the data engineering team that is developing the APIs that will expose the ML model. The ask is not to create the API itself. But rather to productionalise the data science code. 
- 
-The accuracy of the results in terms of exctracting the correct dates and formats is not important for the purpose of this exercise.  The exercise asseses the overall solution design, code structure, coding standards, maintainability, modularity, testing etc 
+3. **Install Dependencies**: Navigate to the project directory and install the Python dependencies using the following command:
+   
+   ```bash
+   pip install -r requirements.txt
+   ```
 
-During work on the solution, please use all the good practices that would be normally used during the development of a production-ready solution.  
-Please feel free to use any libraries, patterns or solution structure (including adding projects) that feels right for you.  
+4. **Build Docker Image**: Build the Docker image using the Dockerfile provided in the project directory. Run the following command:
 
-During the interview session, the produced solution will be demoed, reviewed and discussed.  
+   ```bash
+   docker build -t my-web-service .
+   ```
+
+5. **Run Docker Container**: Run the Docker container using the built image. Specify the port mapping to expose the container's port 8000 to the host system. Execute the following command:
+
+   ```bash
+   docker run -d -p 8000:8000 my-web-service
+   ```
+
+6. **Access the Web Application**: Access the web application by navigating to `http://localhost:8000` in your web browser.
+
+## Workflow
+
+- **Development**: Develop the web application and its components in the `src` directory. Write unit tests for each module in the `tests` directory to ensure code quality and reliability.
+
+- **Dockerization**: Dockerize the application by writing a Dockerfile to package the application and its dependencies into a Docker image. This allows for easy deployment and ensures consistency across different environments.
+
+- **Testing**: Execute unit tests using a testing framework like pytest to verify the functionality of individual modules. Integration tests can also be performed to test the application as a whole.
+
+- **Deployment**: Deploy the Dockerized web application to production or staging environments. Use container orchestration tools like Docker Compose or Kubernetes for managing and scaling the application.
+
+## Architecture Benefits
+
+- **Maintainability**: The modular structure of the codebase allows for easier maintenance and updates. Each component is separated into its own module, making it simpler to understand and modify.
+
+- **Modularity**: The application follows a modular design, with distinct components responsible for specific tasks such as preprocessing, date extraction, and API handling. This promotes code reusability and flexibility.
+
+- **Testing**: The codebase is designed with testing in mind, with separate unit tests for each module. This facilitates thorough testing of individual components and ensures the reliability of the application.
+
+- **Dockerization**: Dockerizing the application provides numerous benefits, including portability, scalability, and consistency. It allows the application to run in any environment without worrying about dependencies or configuration issues.
