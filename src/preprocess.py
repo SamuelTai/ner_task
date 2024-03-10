@@ -1,6 +1,5 @@
 import re
 
-
 # Precompile the regular expression to remove special characters
 SPECIAL_CHAR_REGEX = re.compile(r"[^a-zA-Z0-9\s/]")
 

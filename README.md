@@ -27,6 +27,49 @@ requirements.txt               # File listing Python dependencies
 README.md                      # This README file
 ```
 
+# Date Extraction Process
+
+## Overview
+This document outlines the process of extracting dates from a string using the provided web service. The process involves several modules working together to preprocess the input text, extract dates, standardize them, and obtain the final response from the API.
+
+## Step-by-Step Process
+
+1. **Preprocessing Module**:
+   - The input text containing dates undergoes preprocessing to remove any special characters and normalize the text.
+   - Example: Input text: "The policy provides cover from 30th June 2019 to 1st July 2022 inclusive"
+   - After preprocessing: "The policy provides cover from 30th June 2019 to 1st July 2022 inclusive"
+
+2. **Extract Date Model Module**:
+   - The preprocessed text is passed to the date extraction model, which utilizes natural language processing (NLP) techniques to identify and extract dates.
+   - Example: Extracted dates: ["30th June 2019"]
+
+3. **Date Formatting Module**:
+   - The extracted dates are standardized into a consistent format (e.g., dd/mm/yyyy).
+   - Example: Standardized dates: ["30/06/2019"]
+
+4. **API Endpoint**:
+   - The standardized dates are sent to the API endpoint as a POST request.
+   - Example request payload:
+     ```json
+     {
+       "text": "The policy provides cover from 30th June 2019 to 1st July 2022 inclusive"
+     }
+     ```
+   
+5. **API Response**:
+   - The API processes the request, performs any necessary validation, and returns the response.
+   - Example response:
+     ```json
+     {
+       "dates": ["30/06/2019"],
+       "message": "Success"
+     }
+     ```
+
+## Conclusion
+The date extraction process involves preprocessing the input text, extracting dates using NLP techniques, standardizing the extracted dates, and obtaining the final response from the API. 
+
+
 ## How to Execute
 
 1. **Set Up Environment**: Make sure you have Python and Docker installed on your system.
@@ -51,7 +94,7 @@ README.md                      # This README file
    docker run -d -p 8000:8000 my-web-service
    ```
 
-6. **Access the Web Application**: Access the web application by navigating to `http://localhost:8000` in your web browser.
+6. **Access the Web Service**: Access the web service by navigating to `http://localhost:8000` in your web browser.
 
 ## Workflow
 
@@ -61,13 +104,13 @@ README.md                      # This README file
 
 - **Testing**: Execute unit tests using a testing framework like pytest to verify the functionality of individual modules. Integration tests can also be performed to test the application as a whole.
 
-- **Deployment**: Deploy the Dockerized web application to production or staging environments. Use container orchestration tools like Docker Compose or Kubernetes for managing and scaling the application.
+- **Deployment**: Deploy the Dockerized web service to production or staging environments. Use container orchestration tools like Docker Compose or Kubernetes for managing and scaling the application.
 
 ## Architecture Benefits
 
 - **Maintainability**: The modular structure of the codebase allows for easier maintenance and updates. Each component is separated into its own module, making it simpler to understand and modify.
 
-- **Modularity**: The application follows a modular design, with distinct components responsible for specific tasks such as preprocessing, date extraction, and API handling. This promotes code reusability and flexibility.
+- **Modularity**: The application follows a modular design, with distinct components responsible for specific tasks such as preprocessing, date extraction, and API handling. Moreover, it offers the flexibility to seamlessly swap out the date extraction model with custom models, thereby enhancing code reusability and adaptability.
 
 - **Testing**: The codebase is designed with testing in mind, with separate unit tests for each module. This facilitates thorough testing of individual components and ensures the reliability of the application.
 
